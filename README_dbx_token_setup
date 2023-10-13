@@ -1,0 +1,36 @@
+-------------------------------------------------------------------
+HOW TO GENERATE A REFRESH TOKEN SO THE SCRIPT CAN RUN INDEFINITELY:
+-------------------------------------------------------------------
+These instructions tell you the steps you need to take to create an offline Dropbox refresh token.
+
+Offline Dropbox Refresh Tokens do not expire so you will only need to go through these steps when setting up the script once.
+
+After that the refresh token will be used everytime the script is run to create a new access token to upload the final folder to Dropbox.
+
+
+
+1. Create URL to authorize your app:
+------------------------------------
+Copy this URL into a browser replacing the client ID variable with your App Key.
+
+https://www.dropbox.com/oauth2/authorize?client_id=<APP_KEY>&token_access_type=offline&response_type=code
+
+Follow the steps in the browser to allow the app to connect to your account.  
+After the last step you will be shown a screen with your Access Code generate. 
+Copy this code.
+
+
+2. Use returned code in the call below:
+---------------------------------------
+
+curl https://api.dropbox.com/oauth2/token \
+    -d code=<ACCESS CODE FROM LAST STEP> \
+    -d grant_type=authorization_code \
+    -d client_id=<APP_KEY> \
+    -d client_secret=<APP_SECRET>
+
+
+3. Copy and paste refresh URL returned from the response in the previous step and copy this into the credentials.txt document
+------------------------------------------------------------------------------------------------------------------------------
+
+Now, you can run this script regularly or on a schedule without having to reauthinticate everytime.
